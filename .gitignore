@@ -1,0 +1,16 @@
+# Build and signature artifacts
+*.zip
+manifest.sig
+manifest.txt
+
+# Keys (never commit)
+*.pem
+private_key.pem
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+.vscode/
+.idea/
