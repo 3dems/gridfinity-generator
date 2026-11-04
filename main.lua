@@ -8,8 +8,8 @@
 info = {
     id = "gridfinity_drawer_optimizer",
     type = "project.plugin",
-    title = "Gridfinity Drawer Optimizer",
-    menu = "3DEMS/Gridfinity Drawer Optimizer",
+    title = "Gridfinity Drawer & Base",
+    menu = "3DEMS/Gridfinity Drawer & Base",
     params = {
         {name = "drawer_width", label = "1. Ancho interior del cajon [mm]", type = "float", default = 420.0},
         {name = "drawer_depth", label = "2. Profundidad interior del cajon [mm]", type = "float", default = 420.0},
