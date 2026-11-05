@@ -1,10 +1,10 @@
 {
 	"id": "io.github.3dems.gridfinity-generator",
 	"name": "Gridfinity Drawer & Base",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"min_slicer_version": "3.0.0-alpha11",
 	"author": "9d2f6477-ddc2-4189-b873-d0026dd7a4ef",
-	"description": "Smart modular Gridfinity baseplates & drawer gap-fillers for Core One, MK4, XL & Mini. Bases de cajon a medida.",
+	"description": "Smart modular Gridfinity baseplates & drawer gap-fillers for Core One, MK4, XL & Mini with auto bed tiling.",
 	"license": "AGPL-3.0-only",
 	"required_apis": {
 		"project.plugin": "1.0.0"

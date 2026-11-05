@@ -1,8 +1,8 @@
 --[[
-    Gridfinity Drawer Optimizer & Modular Multi-Bed Packager Pro
-    Plugin oficial para PrusaSlicer 3.0+
-    Autor: 3DEMS (Author ID: 9d2f6477-ddc2-4189-b873-d0026dd7a4ef)
-    Basado en el estándar abierto Gridfinity de Zack Freedman (Voidstar Lab, Licencia MIT)
+    Gridfinity Drawer & Base: Modular Multi-Bed Packager Pro
+    Official PrusaSlicer 3.0+ Plugin
+    Author: 3DEMS (Author ID: 9d2f6477-ddc2-4189-b873-d0026dd7a4ef)
+    Based on the open-source Gridfinity system by Zack Freedman (Voidstar Lab, MIT License)
 --]]
 
 info = {
@@ -11,136 +11,136 @@ info = {
     title = "Gridfinity Drawer & Base",
     menu = "3DEMS/Gridfinity Drawer & Base",
     params = {
-        {name = "drawer_width", label = "1. Ancho interior del cajon [mm]", type = "float", default = 420.0},
-        {name = "drawer_depth", label = "2. Profundidad interior del cajon [mm]", type = "float", default = 420.0},
+        {name = "drawer_width", label = "1. Inner drawer width [mm]", type = "float", default = 420.0},
+        {name = "drawer_depth", label = "2. Inner drawer depth [mm]", type = "float", default = 420.0},
         {
             name = "part_mode",
-            label = "3. Tipo de pieza a generar",
+            label = "3. Output piece type",
             type = "combobox",
-            default = "Base modular dividida para imprimir (Gridfinity Tiles)",
+            default = "Modular baseplates (Auto-split by printer bed)",
             allowed_values = {
-                "Base modular dividida para imprimir (Gridfinity Tiles)",
-                "Caja Gridfinity apilable (Bin con base Gridfinity)",
-                "Solo suplementos perimetrales (Gap Fillers independientes)",
-                "Losa unica continua (No dividir, una sola pieza gigante)"
+                "Modular baseplates (Auto-split by printer bed)",
+                "Stackable Gridfinity bin (With feet & magnet pockets)",
+                "Perimeter gap-filler strips only",
+                "Single giant slab (No splitting, monolithic)"
             }
         },
         {
             name = "printer_target",
-            label = "4. Impresora destino / Tamano de cama",
+            label = "4. Target 3D printer / Bed size",
             type = "combobox",
-            default = "Auto-detectar desde PrusaSlicer activa (Recomendado)",
+            default = "Auto-detect from active PrusaSlicer printer (Recommended)",
             allowed_values = {
-                "Auto-detectar desde PrusaSlicer activa (Recomendado)",
-                "Prusa CORE One / One+ (250 x 220 mm -> max 5x5 celdas)",
-                "Prusa MK4 / MK4S / MK3.9 / MK3S+ (250 x 210 mm -> max 5x4 celdas)",
-                "Prusa XL (360 x 360 mm -> max 8x8 celdas)",
-                "Prusa MINI / MINI+ (180 x 180 mm -> max 4x4 celdas)"
+                "Auto-detect from active PrusaSlicer printer (Recommended)",
+                "Prusa CORE One / One+ (250 x 220 mm -> max 5x5 cells)",
+                "Prusa MK4 / MK4S / MK3.9 / MK3S+ (250 x 210 mm -> max 5x4 cells)",
+                "Prusa XL (360 x 360 mm -> max 8x8 cells)",
+                "Prusa MINI / MINI+ (180 x 180 mm -> max 4x4 cells)"
             }
         },
         {
             name = "grid_pitch_type",
-            label = "5. Tamano del modulo (Grid Pitch)",
+            label = "5. Grid pitch size",
             type = "combobox",
-            default = "42 mm - Gridfinity Estandar (Universal)",
+            default = "42 mm - Standard Gridfinity (Universal)",
             allowed_values = {
-                "42 mm - Gridfinity Estandar (Universal)",
-                "21 mm - Micro-Grid (Piezas pequenas, minimiza el gap)",
-                "28 mm - Mini-Grid (Cajones compactos)",
-                "50 mm - Industrial / Systainer (Metrico)",
+                "42 mm - Standard Gridfinity (Universal)",
+                "21 mm - Micro-Grid (Small parts, minimizes gap)",
+                "28 mm - Mini-Grid (Compact drawers)",
+                "50 mm - Industrial / Systainer (Metric)",
                 "63 mm - Medium-Grid (1.5x)",
-                "84 mm - Macro-Grid (2x para herramientas grandes)",
-                "Personalizado (utiliza el valor inferior)"
+                "84 mm - Macro-Grid (2x large tools)",
+                "Custom (use value below)"
             }
         },
-        {name = "custom_pitch", label = "6. Paso personalizado [mm] (si se eligio personalizado)", type = "float", default = 42.0},
+        {name = "custom_pitch", label = "6. Custom pitch [mm] (if Custom selected above)", type = "float", default = 42.0},
         {
             name = "bin_units_x",
-            label = "7. Celdas de ancho (si eligio Caja)",
+            label = "7. Bin width in cells (if Bin selected)",
             type = "combobox",
-            default = "2 celdas",
+            default = "2 cells",
             allowed_values = {
-                "1 celda",
-                "2 celdas",
-                "3 celdas",
-                "4 celdas"
+                "1 cell",
+                "2 cells",
+                "3 cells",
+                "4 cells"
             }
         },
         {
             name = "bin_units_y",
-            label = "8. Celdas de fondo (si eligio Caja)",
+            label = "8. Bin depth in cells (if Bin selected)",
             type = "combobox",
-            default = "2 celdas",
+            default = "2 cells",
             allowed_values = {
-                "1 celda",
-                "2 celdas",
-                "3 celdas",
-                "4 celdas"
+                "1 cell",
+                "2 cells",
+                "3 cells",
+                "4 cells"
             }
         },
         {
             name = "bin_height_mode",
-            label = "9. Altura de la caja (si eligio Caja)",
+            label = "9. Bin height (if Bin selected)",
             type = "combobox",
-            default = "6U - 42 mm (Estandar Gridfinity)",
+            default = "6U - 42 mm (Standard Gridfinity)",
             allowed_values = {
-                "2U - 14 mm (Ultra compacta)",
-                "3U - 21 mm (Perfil bajo)",
-                "4U - 28 mm (Perfil medio)",
-                "6U - 42 mm (Estandar Gridfinity)",
-                "9U - 63 mm (Alta)",
-                "12U - 84 mm (Profunda)"
+                "2U - 14 mm (Ultra compact)",
+                "3U - 21 mm (Low profile)",
+                "4U - 28 mm (Medium profile)",
+                "6U - 42 mm (Standard Gridfinity)",
+                "9U - 63 mm (Tall)",
+                "12U - 84 mm (Deep)"
             }
         },
         {
             name = "profile_thickness",
-            label = "10. Perfil y grosor de la base",
+            label = "10. Base profile & thickness",
             type = "combobox",
-            default = "Estandar (Altura 4.8 mm, ranura completa e imanes)",
+            default = "Standard (Height 4.8 mm, full lip & magnets)",
             allowed_values = {
-                "Estandar (Altura 4.8 mm, ranura completa e imanes)",
-                "Fino / Eco-Lite (Altura 2.8 mm, ahorra 50% filamento y tiempo)",
-                "Grueso / Reforzado (Altura 7.0 mm, para taller y herramientas)"
+                "Standard (Height 4.8 mm, full lip & magnets)",
+                "Slim / Eco-Lite (Height 2.8 mm, saves 50% time & filament)",
+                "Heavy / Reinforced (Height 7.0 mm, workshop tools)"
             }
         },
         {
             name = "alignment_x",
-            label = "11. Distribucion del Gap horizontal (Ancho)",
+            label = "11. Horizontal gap distribution (Width)",
             type = "combobox",
-            default = "Centrado (Gap repartido a ambos lados)",
+            default = "Centered (Gap split evenly left and right)",
             allowed_values = {
-                "Centrado (Gap repartido a ambos lados)",
-                "Pegado a la izquierda (Todo el gap a la derecha)",
-                "Pegado a la derecha (Todo el gap a la izquierda)"
+                "Centered (Gap split evenly left and right)",
+                "Flush left (All gap on right side)",
+                "Flush right (All gap on left side)"
             }
         },
         {
             name = "alignment_y",
-            label = "12. Distribucion del Gap vertical (Fondo)",
+            label = "12. Vertical gap distribution (Depth)",
             type = "combobox",
-            default = "Pegado al frente (Todo el gap al fondo)",
+            default = "Flush front (All gap at the back)",
             allowed_values = {
-                "Pegado al frente (Todo el gap al fondo)",
-                "Centrado (Gap repartido frente y fondo)",
-                "Pegado al fondo (Todo el gap al frente)"
+                "Flush front (All gap at the back)",
+                "Centered (Gap split evenly front and back)",
+                "Flush back (All gap at the front)"
             }
         },
         {
             name = "gap_treatment",
-            label = "13. Funcion del Gap sobrante",
+            label = "13. Remaining gap function",
             type = "combobox",
-            default = "Borde espaciador plano (Anti-movimiento solido)",
+            default = "Solid flat spacer border (Anti-slide snug fit)",
             allowed_values = {
-                "Borde espaciador plano (Anti-movimiento solido)",
-                "Bandeja longitudinal util (Canal para herramientas largas)"
+                "Solid flat spacer border (Anti-slide snug fit)",
+                "Long utility storage trough (Tray for long tools)"
             }
         },
-        {name = "magnet_holes", label = "14. Orificios para imanes 6x2 mm en cada celda", type = "bool", default = true},
-        {name = "emboss_info_label", label = "15. Grabar medidas e identificador en relieve", type = "bool", default = true}
+        {name = "magnet_holes", label = "14. Magnet holes (6x2 mm in each cell)", type = "bool", default = true},
+        {name = "emboss_info_label", label = "15. Emboss tile index & specifications on edge", type = "bool", default = true}
     }
 }
 
--- Función auxiliar para detectar la cama activa de PrusaSlicer
+-- Auxiliary helper to inspect active printer bed from PrusaSlicer
 local function detect_active_bed()
     local bed_w = 250.0
     local bed_d = 210.0
@@ -179,7 +179,6 @@ local function detect_active_bed()
                         end
                     end
 
-                    -- Intento de extraer coordenadas de bed_shape (ej. '250x220')
                     local bshape = pp:value("bed_shape")
                     if bshape then
                         local max_x = 0
@@ -211,45 +210,45 @@ function execute(opts)
     local printer_opt = opts.printer_target or "Auto"
     local pitch_choice = opts.grid_pitch_type or "42 mm"
     local custom_pitch_val = math.max(10.0, opts.custom_pitch or 42.0)
-    local profile_choice = opts.profile_thickness or "Estandar"
-    local align_x = opts.alignment_x or "Centrado"
-    local align_y = opts.alignment_y or "frente"
-    local gap_treatment = opts.gap_treatment or "plano"
+    local profile_choice = opts.profile_thickness or "Standard"
+    local align_x = opts.alignment_x or "Centered"
+    local align_y = opts.alignment_y or "front"
+    local gap_treatment = opts.gap_treatment or "Solid"
     local magnet_holes = (opts.magnet_holes ~= false)
     local emboss_info = (opts.emboss_info_label ~= false)
 
-    -- 1. Determinar el modo de pieza
+    -- 1. Output piece mode determination
     local is_bin = false
     local is_fillers_only = false
     local is_single_slab = false
     local pm_str = tostring(part_mode_opt or "")
-    if string.find(pm_str, "Caja") or string.find(pm_str, "Bin") then
+    if string.find(pm_str, "bin") or string.find(pm_str, "Bin") or string.find(pm_str, "Caja") then
         is_bin = true
-    elseif string.find(pm_str, "suplemento") or string.find(pm_str, "Filler") then
+    elseif string.find(pm_str, "filler") or string.find(pm_str, "Filler") or string.find(pm_str, "suplemento") then
         is_fillers_only = true
-    elseif string.find(pm_str, "unica") or string.find(pm_str, "gigante") then
+    elseif string.find(pm_str, "giant") or string.find(pm_str, "Single") or string.find(pm_str, "monolithic") or string.find(pm_str, "unica") then
         is_single_slab = true
     end
 
-    -- 2. Determinación del Pitch
+    -- 2. Pitch calculation
     local PITCH = 42.0
     local pitch_str = tostring(pitch_choice)
-    if string.find(pitch_str, "21 mm") then PITCH = 21.0
-    elseif string.find(pitch_str, "28 mm") then PITCH = 28.0
-    elseif string.find(pitch_str, "50 mm") then PITCH = 50.0
-    elseif string.find(pitch_str, "63 mm") then PITCH = 63.0
-    elseif string.find(pitch_str, "84 mm") then PITCH = 84.0
-    elseif string.find(pitch_str, "Personalizado") then PITCH = custom_pitch_val
+    if string.find(pitch_str, "21") then PITCH = 21.0
+    elseif string.find(pitch_str, "28") then PITCH = 28.0
+    elseif string.find(pitch_str, "50") then PITCH = 50.0
+    elseif string.find(pitch_str, "63") then PITCH = 63.0
+    elseif string.find(pitch_str, "84") then PITCH = 84.0
+    elseif string.find(pitch_str, "Custom") or string.find(pitch_str, "Personalizado") then PITCH = custom_pitch_val
     else PITCH = 42.0 end
 
-    -- 3. Alturas y grosores de base
+    -- 3. Baseplate profile heights
     local floor_thickness = 1.4
     local base_h = 4.8
     local prof_str = tostring(profile_choice)
-    if string.find(prof_str, "Fino") then
+    if string.find(prof_str, "Slim") or string.find(prof_str, "Eco") or string.find(prof_str, "Fino") then
         floor_thickness = 1.0
         base_h = 2.8
-    elseif string.find(prof_str, "Grueso") or string.find(prof_str, "Reforzado") then
+    elseif string.find(prof_str, "Heavy") or string.find(prof_str, "Reinforced") or string.find(prof_str, "Grueso") then
         floor_thickness = 2.2
         base_h = 7.0
     else
@@ -258,7 +257,7 @@ function execute(opts)
     end
     local wall_h = base_h - floor_thickness
 
-    -- 4. Cálculo de cuadrícula total del cajón
+    -- 4. Mathematical drawer cell matrix
     local nx = math.max(1, math.floor(d_width / PITCH))
     local ny = math.max(1, math.floor(d_depth / PITCH))
     local grid_w = nx * PITCH
@@ -266,14 +265,14 @@ function execute(opts)
     local gap_x = math.max(0.0, d_width - grid_w)
     local gap_y = math.max(0.0, d_depth - grid_d)
 
-    -- 5. Distribución de Gap horizontal y vertical
+    -- 5. Horizontal & vertical gap allocation
     local pad_left = 0.0
     local pad_right = 0.0
     local ax_str = tostring(align_x)
-    if string.find(ax_str, "izquierda") then
+    if string.find(ax_str, "left") or string.find(ax_str, "izquierda") then
         pad_left = 0.0
         pad_right = gap_x
-    elseif string.find(ax_str, "derecha") then
+    elseif string.find(ax_str, "right") or string.find(ax_str, "derecha") then
         pad_left = gap_x
         pad_right = 0.0
     else
@@ -284,10 +283,10 @@ function execute(opts)
     local pad_front = 0.0
     local pad_back = 0.0
     local ay_str = tostring(align_y)
-    if string.find(ay_str, "fondo") then
+    if string.find(ay_str, "back") or string.find(ay_str, "fondo") then
         pad_front = gap_y
         pad_back = 0.0
-    elseif string.find(ay_str, "Centrado") then
+    elseif string.find(ay_str, "Center") or string.find(ay_str, "Centrado") then
         pad_front = gap_y / 2.0
         pad_back = gap_y / 2.0
     else
@@ -295,7 +294,7 @@ function execute(opts)
         pad_back = gap_y
     end
 
-    -- Resolución de VolumeType.Negative de forma segura
+    -- Defensive VolumeType.Negative resolution
     local neg_type = nil
     pcall(function()
         if VolumeType and VolumeType.Negative then
@@ -308,7 +307,7 @@ function execute(opts)
     end)
 
     ----------------------------------------------------------------------------
-    -- CASO A: CAJA MODULAR GRIDFINITY (BIN)
+    -- CASE A: MODULAR GRIDFINITY BIN (STACKABLE)
     ----------------------------------------------------------------------------
     if is_bin then
         local other_volumes = {}
@@ -340,6 +339,7 @@ function execute(opts)
         local wall_thick = (PITCH <= 25.0) and 1.2 or 1.6
         local floor_thick = 2.0
 
+        -- SOLID ROOT CUBE AT Z >= 0
         local main_box = api.make_cube(bin_w, bin_d, bin_h)
 
         if neg_type then
@@ -347,6 +347,7 @@ function execute(opts)
             local cut_y = 2.25
             local chan_w = 5.0
 
+            -- Bottom perimeter step relief (Z = 0 to foot_h)
             table.insert(other_volumes, {
                 mesh = api.make_cube(cut_x, bin_d, foot_h),
                 type = neg_type,
@@ -368,6 +369,7 @@ function execute(opts)
                 translate = { x = cut_x, y = bin_d - cut_y, z = 0 }
             })
 
+            -- Dividing channels between column feet
             if bin_nx > 1 then
                 for col = 1, bin_nx - 1 do
                     local ch_x = cut_x + (col * PITCH) - chan_w
@@ -379,6 +381,7 @@ function execute(opts)
                 end
             end
 
+            -- Dividing channels between row feet
             if bin_ny > 1 then
                 for row = 1, bin_ny - 1 do
                     local ch_y = cut_y + (row * PITCH) - chan_w
@@ -390,6 +393,7 @@ function execute(opts)
                 end
             end
 
+            -- Cylindrical magnet holes inside each foot (Z = 0 to mag_d)
             if magnet_holes and PITCH >= 28.0 then
                 local mag_r = 3.25
                 local mag_d = 2.4
@@ -415,6 +419,7 @@ function execute(opts)
                 end
             end
 
+            -- Hollow interior cavity from floor to top
             local cav_z = foot_h + floor_thick
             local cav_w = bin_w - (wall_thick * 2)
             local cav_d = bin_d - (wall_thick * 2)
@@ -436,7 +441,7 @@ function execute(opts)
     end
 
     ----------------------------------------------------------------------------
-    -- CASO B: SOLO SUPLEMENTOS (GAP FILLERS INDEPENDIENTES)
+    -- CASE B: PERIMETER GAP FILLERS ONLY
     ----------------------------------------------------------------------------
     if is_fillers_only then
         local other_volumes = {}
@@ -444,7 +449,7 @@ function execute(opts)
         local filler_d = (pad_back > 0) and pad_back or 25.0
         local base_mesh = api.make_cube(grid_w, filler_d, base_h)
 
-        if string.find(tostring(gap_treatment), "longitudinal") and neg_type and filler_d >= 14.0 then
+        if (string.find(tostring(gap_treatment), "trough") or string.find(tostring(gap_treatment), "tray")) and neg_type and filler_d >= 14.0 then
             local trough_wall = 1.6
             table.insert(other_volumes, {
                 mesh = api.make_cube(grid_w - (trough_wall * 2), filler_d - (trough_wall * 2), base_h),
@@ -461,9 +466,8 @@ function execute(opts)
     end
 
     ----------------------------------------------------------------------------
-    -- CASO C: BASE GRIDFINITY MODULAR / PARTICIONADA POR CAMA DE IMPRESIÓN
+    -- CASE C: MODULAR GRIDFINITY BASEPLATES (AUTO-SPLIT BY PRINTER BED)
     ----------------------------------------------------------------------------
-    -- 1. Determinar el tamaño máximo de cama de la impresora objetivo
     local bed_w = 250.0
     local bed_d = 210.0
     local p_str = tostring(printer_opt)
@@ -481,30 +485,29 @@ function execute(opts)
     elseif string.find(p_str, "MINI") then
         bed_w = 180.0
         bed_d = 180.0
-    else -- MK4 / MK3 / default
+    else
         bed_w = 250.0
         bed_d = 210.0
     end
 
-    -- Margen de seguridad de impresión (5 mm por lado = 10 mm total)
+    -- Safety printing margin (10 mm)
     local max_printable_w = math.max(PITCH, bed_w - 10.0)
     local max_printable_d = math.max(PITCH, bed_d - 10.0)
 
-    -- Capacidad máxima de celdas por losa según la impresora
+    -- Max cell capacity per tile
     local max_cells_x = math.max(1, math.floor(max_printable_w / PITCH))
     local max_cells_y = math.max(1, math.floor(max_printable_d / PITCH))
 
-    -- Si se eligió forzar losa única continua sin dividir
     if is_single_slab then
         max_cells_x = nx
         max_cells_y = ny
     end
 
-    -- Número de particiones (baldosas) necesarias en X e Y
+    -- Number of tile partitions required
     local t_x = math.ceil(nx / max_cells_x)
     local t_y = math.ceil(ny / max_cells_y)
 
-    -- Reparto equilibrado y uniforme de celdas entre baldosas
+    -- Balanced cell distribution across tiles
     local cols_cells = {}
     local base_c = math.floor(nx / t_x)
     local rem_c = nx % t_x
@@ -519,19 +522,17 @@ function execute(opts)
         table.insert(rows_cells, base_r + (r <= rem_r and 1 or 0))
     end
 
-    -- Geometría fija de celdas
     local rib_w = math.max(2.4, math.min(4.2, PITCH * 0.085))
     local corner_tab_size = math.min(8.5, PITCH * 0.22)
     local mag_radius = 3.25
     local mag_depth = math.min(2.4, wall_h)
     local mag_offset = 13.0 * (PITCH / 42.0)
 
-    -- GENERAR CADA BALDOSA INDEPENDIENTE
+    -- GENERATE EACH INDEPENDENT TILE OBJECT
     for t_col = 1, t_x do
         local tile_nx = cols_cells[t_col]
         local tile_grid_w = tile_nx * PITCH
 
-        -- Determinar suplementos de borde que corresponden a esta columna de baldosas
         local tile_pad_left = (t_col == 1) and pad_left or 0.0
         local tile_pad_right = (t_col == t_x) and pad_right or 0.0
         local tile_w = tile_pad_left + tile_grid_w + tile_pad_right
@@ -540,16 +541,14 @@ function execute(opts)
             local tile_ny = rows_cells[t_row]
             local tile_grid_d = tile_ny * PITCH
 
-            -- Determinar suplementos de borde para esta fila de baldosas
             local tile_pad_front = (t_row == 1) and pad_front or 0.0
             local tile_pad_back = (t_row == t_y) and pad_back or 0.0
             local tile_d = tile_pad_front + tile_grid_d + tile_pad_back
 
             local tile_volumes = {}
-            -- Suelo plano continuo para esta baldosa
             local tile_base_mesh = api.make_cube(tile_w, tile_d, floor_thickness)
 
-            -- 1. Marcos y suplementos perimetrales si la baldosa toca el borde exterior del cajón
+            -- 1. Outer perimeter gap filler frames
             if tile_pad_left > 0.5 then
                 table.insert(tile_volumes, {
                     mesh = api.make_cube(tile_pad_left, tile_d, wall_h),
@@ -569,7 +568,7 @@ function execute(opts)
                 })
             end
             if tile_pad_back > 0.5 then
-                local is_trough = string.find(tostring(gap_treatment), "longitudinal") and (tile_pad_back >= 15.0)
+                local is_trough = (string.find(tostring(gap_treatment), "trough") or string.find(tostring(gap_treatment), "tray")) and (tile_pad_back >= 15.0)
                 if is_trough and neg_type then
                     local tw = 1.8
                     local th = math.max(wall_h, 8.0)
@@ -590,7 +589,7 @@ function execute(opts)
                 end
             end
 
-            -- 2. Nervaduras divisorias Gridfinity en la baldosa
+            -- 2. Gridfinity dividing ribs
             for r = 0, tile_ny do
                 local y_pos = tile_pad_front + (r * PITCH) - (rib_w / 2.0)
                 if r == 0 then y_pos = tile_pad_front end
@@ -610,7 +609,7 @@ function execute(opts)
                 })
             end
 
-            -- 3. Celdas Gridfinity: Pestañas esquineras y alojamientos de imanes
+            -- 3. Gridfinity cells: Corner tabs and magnet holes
             for c = 1, tile_nx do
                 for r = 1, tile_ny do
                     local cell_origin_x = tile_pad_left + (c - 1) * PITCH
@@ -649,10 +648,10 @@ function execute(opts)
                 end
             end
 
-            -- 4. Grabado en relieve indicando la posición de la losa en el cajón
+            -- 4. Embossed specifications and tile coordinates
             if emboss_info and api.emboss_text and api.get_default_font then
                 pcall(function()
-                    local label = string.format("Losa [%d,%d] (%dx%d) - Gridfinity", t_col, t_row, tile_nx, tile_ny)
+                    local label = string.format("Tile [%d,%d] (%dx%d) - Gridfinity", t_col, t_row, tile_nx, tile_ny)
                     local txt_mesh = api.emboss_text {
                         font = api.get_default_font(),
                         text = label,
@@ -665,7 +664,7 @@ function execute(opts)
                 end)
             end
 
-            -- Añadir la baldosa como objeto individual al plater de PrusaSlicer
+            -- Add tile as independent object in PrusaSlicer
             api.project:add_object {
                 mesh = tile_base_mesh,
                 other_volumes = tile_volumes
